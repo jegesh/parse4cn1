@@ -5,10 +5,10 @@ Build Status (develop): [![Build Status (develop)](https://travis-ci.org/sidiaba
 
 Tests are run with the following backend configurations:
 
-* Parse.com
+* Parse Server version 2.2.24 hosted on back4app.com
 * Parse Server version 2.2.13 hosted on openshift
 
-# Parse4CN1 - Codename One Library for [Parse.com](https://parse.com)  and [Parse Server](https://github.com/ParsePlatform/Parse-Server)#
+# Parse4CN1 - Codename One Library for [Parse Server](https://github.com/ParsePlatform/Parse-Server)#
 
 **This library is a port of Parse's [REST API](https://www.parse.com/docs/rest) to [CodenameOne](http://www.codenameone.com/) (and by extension to Java).**
 
@@ -70,10 +70,12 @@ The Parse REST API is quite extensive. As such, we maintain an overview of the f
 | Files | IMPLEMENTED | |
 | Analytics | Pending | |
 | Config | IMPLEMENTED | |
-| Push Notifications* | Implemented for Parse.com but pending for Parse Server | |
-| Installations | Implemented for Parse.com but pending for Parse Server | |
+| Push Notifications* | IMPLEMENTED | |
+| Installations* | IMPLEMENTED | |
 | Cloud Code | IMPLEMENTED | |
 | GeoPoints | IMPLEMENTED | |
+| LiveQuery | [IMPLEMENTED](https://gist.github.com/ahmedengu/607266b5caeffbc19c4508b4684b4b7b) | |
+
 \*Advanced feature that cannot be realized using REST API only; involves native code integration. See the CN1 Parse push [guide](https://github.com/sidiabale/parse4cn1/wiki/Push-Notifications-Overview) for more details.
 
 | Advanced Features | Remarks |
@@ -98,7 +100,7 @@ Parse Server is actively in development. As such, there are bugs/missing feature
 
 | Issue | Type | Implications |
 |:-------|:-------:|:-------	|
-|Files and GeoPoints are not correctly saved in ParseConfig (see this [issue](https://github.com/ParsePlatform/parse-server/issues/2103))|Bug|Creating ParseConfig objects of type File or GeoPoint using the affected Parse Server versions will not work as expected. Also, the `parse4cn1` ParseConfigTest will fail when run against a backend in which the ParseConfig test objects were initialized using any of the affected Parse Server versions|
+|Key constraints in Parse Query does not work according to API spec. (TODO: Report issue)|Bug|User-defined fields of type=relation are returned even when they should be excluded by key constraints. For example, create two columns col1 and col2 where col2 is a relation field. Add constraint `keys='col1'`. Expected: only col1 is returned. Actual: col2 is also returned. Tested against Parser Server 2.7.1. Note: Relevant part of the `parse4cn1` `ParseQueryTest.checkKeyConstraints()` test has been commented out until this is fixed|
 | Master key is required for retrieving installations| Change w.r.t. Parse.com | Since `parse4cn1` does not support any operations requiring the master key, retrieving installations is now realized via cloud code (see this [comment](https://github.com/sidiabale/parse4cn1/issues/18#issuecomment-227690891)) |
 | Master key is required for sending push notifications from clients (see this [page](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse#client-push))| Change w.r.t. Parse.com | Since `parse4cn1` does not support any operations requiring the master key, client-triggered push notifications will have to be realized via cloud code|
 |Queries in ParseCloud functions that relate to a specific user must now include the user's session token. More info on this change is documented [here](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse#no-current-user)| Change w.r.t. Parse.com|Session token header must be explicitly added to the post request as illustrated [here](https://github.com/sidiabale/parse4cn1/issues/19#issuecomment-229250367).|

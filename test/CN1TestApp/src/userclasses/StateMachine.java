@@ -56,9 +56,14 @@ public class StateMachine extends StateMachineBase implements IPushCallback {
      * the constructor/class scope to avoid race conditions
      */
     protected void initVars(Resources res) {
+<<<<<<< HEAD
         Parse.initialize("j1KMuH9otZlHcPncU9dZ1JFH7cXL8K5XUiQQ9ot8", 
                 "V6ZUyBtfERtzbq6vjeAb13tiFYij980HN9nQTWGB",
                 "https://parse-parse4cn1.rhcloud.com/parse");
+=======
+        Parse.initialize("https://parseapi.back4app.com", "OiTzm1ivZovdmMktQnqk8ajqBVIPgl4dlgUxw4dh", 
+                "fHquv9DA0SA5pd7VPO38tNzOrzrgTgfd7yY3nXbo");
+>>>>>>> 669bad087a5af33962c2370033d7960b724f8fd5
         ParsePush.setPushCallback(this);
     }
     
